@@ -1,7 +1,22 @@
 [
   {
-    "file": "experiments/example.js",
+    "file": "experiments/starry-night.js",
+    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation",
+    "description": "Adaptation of 'The Starry Night' painting by Vincent van Gogh. I presented only the starry sky part, omitting the houses and peaks painted in the original artwork. I focused on the large use of randomness, both in shapes, position of elements, and colors. An example is the stars. In the original image, they have specific positions. In my interpretation, their positions are variable. My initial goal was to recreate the painting would be very difficult. Therefore I decided that I would use a loop and specify frameRate so that all 'random' elements change constantly. Although I was not able not copy the image 1 to 1, I wanted the composition to still be interesting in some way."
+  },
+  {
+    "file": "experiments/starry-night-2.js",
     "name": "Name of your experiment",
-    "description": "Explains the what and the why. What is the main idea? What is the purpose? Describes the coding process and implementation choices and gives a high level system overview."
+    "description": "The second adaptation of 'The Starry Night' painting by Vincent van Gogh. Here, I also captured only the characteristic sky in this interpretation. In this composition, I wanted to try out functions such as noise. Thanks to this, I achieved a more interesting effect than in the previous interpretation (in my opinion) while writing shorter and simpler code. Thanks to the combination of randomness of elements' positions, sizes, and colors and the use of a loop, the animation is dynamic and conspicuous."
+  },
+  {
+    "file": "experiments/joy-division.js",
+    "name": "Joy Division 'Unknown Pleasures' album cover - Adaptation",
+    "description": "The cover of Joy Division - Unknown Pleasures album seemed to be a great opportunity to use the noise effect to create irregular radio emissions lines (Wikipedia says that they are placed on the cover), which was shown to us during workshops. During the creation, it turned out that noise can be looped noise giving a pleasant to-the-eye effect of wave animation, which fits perfectly into the cover of a music album suits perfectly in my opinion."
+  },
+  {
+    "file": "experiments/joy-division-2.js",
+    "name": "Joy Division 'Unknown Pleasures' album cover - Dot adaptation",
+    "description": "This composition is the child of the previously mentioned album cover and Braille alphabet. The lines were divided into small dots. Thanks to this, the work is slightly different from the first one, but at first glance, many people will recognize the reference."
   }
 ]
