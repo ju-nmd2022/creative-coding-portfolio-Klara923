@@ -1,12 +1,32 @@
 [
   {
+    "file": "experiments/starry-night-3.js",
+    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
+    "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
+  },
+  {
+    "file": "experiments/solar-system.js",
+    "name": "Solar system",
+    "description": "This project simulates a dynamic solar system using particles and spirals. The centerpiece is a glowing sun, around which multiple planets orbit with varying speeds and sizes. Each planet is spiral which acts like a comet during the movement. The background features particles that move across the canvas, adding depth to the scene."
+  },
+  {
+    "file": "experiments/sketchbook.js",
+    "name": "Sketchbook",
+    "description": "A sketchbook isn’t a copy of a specific artwork. However, it can turn into one. All it takes is a bit of imagination and moving the mouse. This sketchbook is inspired by the game 'Chase and Flee', but with a twist—the flee mechanic has been removed, and the chase feature has been adapted so that colored dots follow the mouse, leaving a trail behind. This lets the user craft their own unique artwork on the canvas."
+  },
+  {
+    "file": "experiments/numbers-game.js",
+    "name": "Number system from 'The Severance' series",
+    "description": "The project is inspired by the 'game' from 'The Severance' series. The user is tasked with catching oddly behaving numbers. When all the 'strange' numbers are collected, the user will win the 'game' (this feature has not yet been applied, but I plan to make the game fully functional while playing with Tone.js). The numbers act as a flocking system, inspired by Daniel Shiffman’s.Flocking Boids' challenge. It features a group of boys that move across the canvas, interacting with each other through alignment, cohesion, and separation behaviors. "
+  },
+  {
     "file": "experiments/starry-night.js",
     "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation",
     "description": "Adaptation of 'The Starry Night' painting by Vincent van Gogh. I presented only the starry sky part, omitting the houses and peaks painted in the original artwork. I focused on the large use of randomness, both in shapes, position of elements, and colors. An example is the stars. In the original image, they have specific positions. In my interpretation, their positions are variable. My initial goal was to recreate the painting would be very difficult. Therefore I decided that I would use a loop and specify frameRate so that all 'random' elements change constantly. Although I was not able not copy the image 1 to 1, I wanted the composition to still be interesting in some way."
   },
   {
     "file": "experiments/starry-night-2.js",
-    "name": "Name of your experiment",
+    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation 2",
     "description": "The second adaptation of 'The Starry Night' painting by Vincent van Gogh. Here, I also captured only the characteristic sky in this interpretation. In this composition, I wanted to try out functions such as noise. Thanks to this, I achieved a more interesting effect than in the previous interpretation (in my opinion) while writing shorter and simpler code. Thanks to the combination of randomness of elements' positions, sizes, and colors and the use of a loop, the animation is dynamic and conspicuous."
   },
   {
