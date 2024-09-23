@@ -1,22 +1,27 @@
-// Include Tone.js in your HTML file:
-// <script src="https://cdn.jsdelivr.net/npm/tone"></script>
+// Flocking system inspired by Daniel Shiffman with game twist and sounds
+// https://thecodingtrain.com/CodingChallenges/124-flocking-boids.html
+// https://youtu.be/mhjuuHl6qHM
+
+// Background music took from jake's tutorial
+// https://codepen.io/jak_e/pen/RQgxOJ/
+// https://www.youtube.com/watch?v=IT64QQo3jrM&list=PLTujTdKucISz9rx7gGqei3fAGrtA97uY0&index=3
 
 const flock = [];
 let clickedNumbers = [];
-let synth; // Initialize a synth
-let chords; // Store the chord array
-let chordIdx = 0; // Current chord index
-let step = 0; // Step in the chord progression
+let synth; 
+let chords; 
+let chordIdx = 0;
+let step = 0; 
 
-let weirdNumbersCollected = 0; // Count of weird numbers collected
-let totalWeirdNumbers = 0; // Total weird numbers in the game
-let gameState = "playing"; // Current game state
+let weirdNumbersCollected = 0; 
+let totalWeirdNumbers = 0; 
+let gameState = "playing"; 
 
-// Initialize Tone.js
+
 function setup() {
-  createCanvas(500, 500);
+  createCanvas(1000, 400);
   
-  // Initialize the synth and gain
+
   synth = new Tone.Synth().toDestination();
   const gain = new Tone.Gain(0.7).toDestination();
   synth.connect(gain);
@@ -29,25 +34,24 @@ function setup() {
   Tone.Transport.scheduleRepeat(onRepeat, '16n');
   Tone.Transport.bpm.value = 90;
 
-  // Start the sketch
+
   for (let i = 0; i < 300; i++) {
     let boid = new Boid();
     flock.push(boid);
-    if (boid.isWeird) totalWeirdNumbers++; // Count total weird numbers
+    if (boid.isWeird) totalWeirdNumbers++; 
   }
 
-  // Add event listener for user interaction
   document.documentElement.addEventListener('mousedown', startAudioContext);
 }
 
-// Function to start audio context on user interaction
+
 function startAudioContext() {
   Tone.start();
-  document.documentElement.removeEventListener('mousedown', startAudioContext); // Remove listener after starting
-  Tone.Transport.start(); // Start the transport
+  document.documentElement.removeEventListener('mousedown', startAudioContext); 
+  Tone.Transport.start(); 
 }
 
-// Play a chord on repeat
+
 function onRepeat(time) {
   let chord = chords[chordIdx];
   let note = chord[step % chord.length];
@@ -55,7 +59,7 @@ function onRepeat(time) {
   step++;
 }
 
-// Format the chord string into an array
+
 function formatChords(chordString) {
   return chordString.split(' ');
 }
@@ -81,9 +85,9 @@ function draw() {
       text(clickedNumbers[i], xOffset * (i + 1), height - 25);
     }
 
-    // Check for win condition
+
     if (weirdNumbersCollected === totalWeirdNumbers) {
-      gameState = "won"; // Change game state to won
+      gameState = "won"; 
     }
   } else if (gameState === "won") {
     displayWinScreen();
@@ -98,7 +102,7 @@ function displayWinScreen() {
   text("Congratulations, you won!", width / 2, height / 2 - 20);
   const buttonWidth = 150;
   const buttonHeight = 50;
-  fill(0, 255, 0); // Green button
+  fill(0, 255, 0); 
   rect(width / 2 - buttonWidth / 2, height / 2 + 20, buttonWidth, buttonHeight);
   fill(255);
   textSize(24);
@@ -113,7 +117,7 @@ class Boid {
     this.acceleration = createVector();
     this.number = Math.floor(random(0, 10));
     this.isVisible = true;
-    this.isWeird = random() < 0.005; // 5% chance
+    this.isWeird = random() < 0.005; 
   }
 
   flock(boids) {
@@ -200,9 +204,9 @@ class Boid {
       let jitter = p5.Vector.random2D();
       jitter.mult(2);
       this.acceleration.add(jitter);
-      this.velocity.limit(6);
+      this.velocity.limit(8);
     } else {
-      this.velocity.limit(4);
+      this.velocity.limit(2);
     }
 
     this.position.add(this.velocity);
@@ -222,10 +226,7 @@ class Boid {
 
     let d = dist(mouseX, mouseY, this.position.x, this.position.y);
 
-    if (this.isWeird) {
-      textSize(16);
-      fill(0, 255, 0); // Set color to green for weird numbers
-    } else {
+  
       if (d < 20) {
         textSize(32);
         fill(255, 0, 0);
@@ -233,7 +234,7 @@ class Boid {
         textSize(16);
         fill(255);
       }
-    }
+    
 
     noStroke();
     textAlign(CENTER, CENTER);
@@ -246,15 +247,15 @@ class Boid {
       clickedNumbers.push(this.number);
       this.isVisible = false;
       if (this.isWeird) {
-        weirdNumbersCollected++; // Increment weird number count
+        weirdNumbersCollected++;
       }
-      this.playSound(this.number); // Play sound on click
+      this.playSound(this.number); 
     }
   }
 
   playSound(number) {
-    const frequency = Tone.Frequency(200 + number * 50).toFrequency(); // Adjust frequency based on number
-    synth.triggerAttackRelease(frequency, "8n"); // Play the sound
+    const frequency = Tone.Frequency(200 + number * 50).toFrequency(); 
+    synth.triggerAttackRelease(frequency, "8n"); 
   }
 }
 
@@ -268,7 +269,7 @@ function mousePressed() {
       boid.handleClick();
     }
   } else if (gameState === "won") {
-    // Check if play again button is clicked
+
     const buttonWidth = 150;
     const buttonHeight = 50;
     if (
@@ -277,22 +278,22 @@ function mousePressed() {
       mouseY > height / 2 + 20 &&
       mouseY < height / 2 + 20 + buttonHeight
     ) {
-      resetGame(); // Reset the game
+      resetGame(); 
     }
   }
 }
 
 function resetGame() {
-  flock.length = 0; // Clear the flock
+  flock.length = 0; 
   clickedNumbers = [];
   weirdNumbersCollected = 0;
-  gameState = "playing"; // Reset game state
-  totalWeirdNumbers = 0; // Reset weird numbers count
+  gameState = "playing"; 
+  totalWeirdNumbers = 0; 
 
-  // Reinitialize the boids
+
   for (let i = 0; i < 300; i++) {
     let boid = new Boid();
     flock.push(boid);
-    if (boid.isWeird) totalWeirdNumbers++; // Count total weird numbers
+    if (boid.isWeird) totalWeirdNumbers++; 
   }
 }

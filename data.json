@@ -1,29 +1,24 @@
 [
   {
-    "file": "experiments/tone-5.js",
-    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
-    "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
+    "file": "experiments/flowfield-with-tone.js",
+    "name": "Step sequencer with colorful flowfield",
+    "description": "The code uses the Tone.js library to create a simple audio sequencer with three synthesizers that play specific notes based on checkboxes arranged and selected by the user. The sound triggers the movement of particles' flowfield based on Perlin noise placed in the background."
   },
   {
-    "file": "experiments/tone-4.js",
-    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
-    "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
+    "file": "experiments/flowfield-with-tone-2.js",
+    "name": "Step sequencer with black and white flowfield",
+    "description": "The code uses a step sequencer similar to previous projects, but a different flow field is used. The flow field is created as an array where each point represents a direction vector derived from noise values based on particle positions. This field is updated in the updateFlowField function, which calculates angles for the grid points using a noise function when at least one checkbox is checked. When a checkbox is selected, it triggers a sound and randomly alters the velocity of a particle, causing it to move in a new direction."
   },
   {
-    "file": "experiments/tone-3.js",
-    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
-    "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
+    "file": "experiments/numbers-game-2.js",
+    "name": "Number game with audio from 'The Severance' series",
+    "description": "The numbers game was enriched with simple game functionality. The player's task is to collect all the 'strange' behaving numbers. After collecting all such numbers, the player wins. The game also was enriched with audio. By clicking a single number, the triggerAttackRelease function activates the synth sound for individual boid. Additionally, the game has background music - a looped chord sequence with a synthesizer."
   },
   {
-    "file": "experiments/tone.js",
-    "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
-    "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
+    "file": "experiments/joy-division-3.js",
+    "name": "Joy Division 'Unknown Pleasures' album cover - Adaptation woth Tone.js Analyser",
+    "description": "When an audio file is played (it starts on click), the code analyzes its waveform and visualizes the waveform on a canvas. The visualization involves multiple waveforms displayed in rows across the screen. The achieved effect resembles a bit of irregular radio emission lines from Joy Joy Division - 'Unknown Pleasures' album cover."
   },
-  {
-  "file": "experiments/tone.js",
-  "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",
-  "description": "This project is an animated recreation of Starry Night from 'Starry Night' artwork painted by Vincent van Gogh. The background particles move based on Perlin noise. The spirals rotate and shrink over time, constantly updating their positions and radii. Both background waves and spirals use createVector for positioning and movement."
-},
   {
     "file": "experiments/starry-night-3.js",
     "name": "Vincent van Gogh, 'The Starry Night', (1889) - Recreation with Perlin Noise",

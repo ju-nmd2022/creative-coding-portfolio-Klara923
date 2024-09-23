@@ -1,11 +1,11 @@
-console.clear();
+// Step Sequencer inspired by jake with black and white flow field
+// https://codepen.io/jak_e/pen/qxjPMM/
+// https://www.youtube.com/watch?v=Dxxkma4F-oA&list=PLTujTdKucISz9rx7gGqei3fAGrtA97uY0&index=3
 
-// Ensure Tone.js audio context starts on user interaction (for Chrome)
 document.documentElement.addEventListener('mousedown', () => {
   if (Tone.context.state !== 'running') Tone.context.resume();
 });
 
-// Synths initialization
 const synths = [
   new Tone.Synth(),
   new Tone.Synth(),
@@ -16,12 +16,10 @@ synths.forEach(synth => {
   synth.oscillator.type = 'sine';
 });
 
-// Connect synths to gain and master
 const gain = new Tone.Gain(0.6);
 gain.toMaster();
 synths.forEach(synth => synth.connect(gain));
 
-// Function to dynamically generate HTML structure
 function createSynthGrid() {
   const container = document.createElement('div');
   
@@ -46,7 +44,6 @@ function createSynthGrid() {
     container.appendChild(rowDiv);
   }
 
-  // Create canvas for animation
   const canvas = document.createElement('canvas');
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
@@ -59,37 +56,43 @@ function createSynthGrid() {
   document.body.appendChild(container);
 }
 
-// Create the grid on page load
 createSynthGrid();
 
-// Fetch the dynamically created rows for further manipulation
 const $rows = document.body.querySelectorAll('div > div'),
       notes = ['G5', 'E4', 'C3'];
 let index = 0;
 
-// Animation setup
 const canvas = document.querySelector('canvas');
 const ctx = canvas.getContext('2d');
 
-// Flow field setup
-const resolution = 80; // Increased resolution to further simplify
+const resolution = 50; 
 const cols = Math.floor(canvas.width / resolution);
 const rows = Math.floor(canvas.height / resolution);
 let flowField = new Array(cols * rows);
-
-// Particle system
 const particles = [];
-const numParticles = 50; // Reduced number of particles
+const numParticles = 1000; 
+const noiseScale = 0.01 / 2; 
 
 class Particle {
   constructor() {
     this.pos = createVector(Math.random() * canvas.width, Math.random() * canvas.height);
     this.vel = createVector(0, 0);
-    this.maxSpeed = 0.5; // Further reduced speed
-    this.color = `hsl(${Math.random() * 360}, 50%, 50%)`;
+    this.acc = createVector(0, 0);
+    this.maxSpeed = 2; 
+  }
+
+  follow(flowField) {
+    let x = Math.floor(this.pos.x / resolution);
+    let y = Math.floor(this.pos.y / resolution);
+    let index = x + y * cols;
+    if (flowField[index]) {
+      this.acc = flowField[index]; 
+    }
   }
 
   update() {
+    this.vel.add(this.acc);
+    this.vel.limit(this.maxSpeed);
     this.pos.add(this.vel);
     this.wrap();
   }
@@ -101,36 +104,38 @@ class Particle {
     if (this.pos.y < 0) this.pos.y = canvas.height;
   }
 
-  follow(flowField) {
-    let x = Math.floor(this.pos.x / resolution);
-    let y = Math.floor(this.pos.y / resolution);
-    let index = x + y * cols;
-    if (flowField[index]) {
-      this.vel = flowField[index]; // Update velocity directly from flow field
-    }
-  }
-
   show() {
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+    ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.arc(this.pos.x, this.pos.y, 2, 0, Math.PI * 2);
-    ctx.fillStyle = this.color;
-    ctx.fill();
+    ctx.moveTo(this.pos.x, this.pos.y);
+    ctx.lineTo(this.pos.x - this.vel.x, this.pos.y - this.vel.y);
+    ctx.stroke();
   }
 }
 
 function createVector(x, y) {
-  return { x, y, add(v) { this.x += v.x; this.y += v.y; } };
+  return { 
+    x, y, 
+    add(v) { this.x += v.x; this.y += v.y; },
+    limit(max) {
+      let mag = Math.sqrt(this.x * this.x + this.y * this.y);
+      if (mag > max) {
+        this.x = (this.x / mag) * max;
+        this.y = (this.y / mag) * max;
+      }
+    }
+  };
 }
 
-// Initialize particles
 for (let i = 0; i < numParticles; i++) {
   particles.push(new Particle());
 }
 
 let zoff = 0;
-let activeCheckboxCount = 0; // Count of active checkboxes
+let activeCheckboxCount = 0; 
 function updateFlowField() {
-  if (activeCheckboxCount === 0) return; // Don't update if no checkbox is checked
+  if (activeCheckboxCount === 0) return; 
 
   let yoff = 0;
   for (let y = 0; y < rows; y++) {
@@ -138,33 +143,29 @@ function updateFlowField() {
     for (let x = 0; x < cols; x++) {
       let index = x + y * cols;
       let angle = noise(xoff, yoff, zoff) * Math.PI * 2;
-      let v = createVector(Math.cos(angle) * (0.1 * activeCheckboxCount), Math.sin(angle) * (0.1 * activeCheckboxCount)); // Scale by activeCheckboxCount
+      let v = createVector(Math.cos(angle), Math.sin(angle));
       flowField[index] = v;
-      xoff += 0.1;
+      xoff += noiseScale;
     }
-    yoff += 0.1;
+    yoff += noiseScale;
   }
   zoff += 0.01;
 }
 
-// Perlin noise function (simplified version)
+
 function noise(x, y, z) {
   return (Math.sin(x * 10 + y * 5 + z * 2) + 1) / 2;
 }
 
 function draw() {
-  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'; 
   ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-  // Update flow field
+
   updateFlowField();
 
   for (let particle of particles) {
-    if (activeCheckboxCount === 0) {
-      particle.vel = createVector(0, 0); // Stop the particles when no sound is played
-    } else {
-      particle.follow(flowField);
-    }
+    particle.follow(flowField);
     particle.update();
     particle.show();
   }
@@ -174,14 +175,14 @@ function draw() {
 
 draw();
 
-// Schedule a repeating Tone.js event
+
 Tone.Transport.scheduleRepeat(repeat, '8n');
 Tone.Transport.start();
 
-// Function that gets called every 8th note
+
 function repeat(time) {
   let step = index % 8;
-  activeCheckboxCount = 0; // Reset active checkbox count
+  activeCheckboxCount = 0; 
   for (let i = 0; i < $rows.length; i++) {
     let synth = synths[i],
         note = notes[i],
@@ -190,12 +191,11 @@ function repeat(time) {
     
     if ($input.checked) {
       synth.triggerAttackRelease(note, '8n', time);
-      activeCheckboxCount++; // Count active checkboxes
+      activeCheckboxCount++;
 
-      // Influence the flow field when a note is played
+
       let particle = particles[Math.floor(Math.random() * particles.length)];
-      particle.vel = createVector((Math.random() - 0.05) * 0.05, (Math.random() - 0.05) * 0.05); // Minimal movement
-      particle.color = `hsl(${i * 120}, 50%, 50%)`; // Change color based on the synth
+      particle.vel = createVector((Math.random() - 0.5) * 2, (Math.random() - 0.5) * 2);
     }
   }
   index++;
